@@ -7,7 +7,7 @@ from app.routes import products, customers, orders, dashboard
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="StockFlow API",
+    title="ClearStock API",
     description="Production-ready Inventory & Order Management backend",
     version="1.0.0"
 )
@@ -22,7 +22,7 @@ app.add_middleware(
 
 @app.get("/health")
 def health_check():
-    return {"status": "healthy", "service": "stockflow-api"}
+    return {"status": "healthy", "service": "clearstock-api"}
 
 app.include_router(products.router)
 app.include_router(customers.router)

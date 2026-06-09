@@ -1,194 +1,94 @@
-# StockFlow — Containerized Inventory & Order Management System
+# 📦 ClearStock — Enterprise Order Management System
 
-StockFlow is a production-ready full-stack application for managing products, customers, orders, and inventory movement. It is built for the Ethara AI Software Engineer assessment using React, FastAPI, PostgreSQL, Docker, and Docker Compose.
+![React](https://img.shields.io/badge/Frontend-React_18-61DAFB?style=for-the-badge&logo=react)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql)
+![Docker](https://img.shields.io/badge/Deployment-Docker-2496ED?style=for-the-badge&logo=docker)
 
-## Features
+**ClearStock** is a production-ready, full-stack application designed for managing products, customers, orders, and inventory movement. Built originally as a technical assessment for Ethara AI, it has been heavily refined to feature an **industry-standard Enterprise OMS Light Theme** optimized for high data density, extreme readability, and transactional safety.
 
-### Product Management
-- Create, view, update-ready, and delete products
-- Unique SKU validation
-- Price and stock validation
-- Low-stock dashboard tracking
+---
 
-### Customer Management
-- Create, view, and delete customers
-- Unique email validation
-- Backend request validation
+## ✨ Key Features
 
-### Order Management
-- Create orders against customers
-- Supports product references and quantity ordered
-- Backend automatically calculates total amount
-- Prevents orders when inventory is insufficient
-- Automatically reduces stock after order placement
-- Uses database row locking during order creation to reduce overselling risk
+### 💻 Enterprise-Grade UI
+- **Data-Dense Layout**: Clean, high-contrast light theme inspired by top-tier tools like Stripe and Shopify Polaris.
+- **Tabular Readability**: Utilizes `JetBrains Mono` specifically for SKUs, Prices, and Order IDs to ensure perfect vertical alignment during rapid data entry.
+- **Dynamic Feedback**: Real-time notifications, interactive modals, and subtle state transitions without sacrificing performance.
 
-### Dashboard
-- Total products
-- Total customers
-- Total orders
-- Low-stock products
+### 🛡️ Robust Backend Logic
+- **Transaction-Safe Inventory**: Utilizes database row-locking to ensure stock is reduced safely during concurrent order placements, completely preventing overselling.
+- **Strict Validation**: End-to-end type safety and payload validation using Pydantic on the backend.
+- **Relational Integrity**: Multi-table architecture enforcing unique constraints on SKUs and Customer Emails.
 
-## Tech Stack
+---
 
-| Layer | Technology |
-|---|---|
-| Frontend | React + Vite |
-| Backend | Python + FastAPI |
-| Database | PostgreSQL |
-| ORM | SQLAlchemy |
-| Validation | Pydantic |
-| Containerization | Docker |
-| Orchestration | Docker Compose |
+## 🏗️ Architecture & Tech Stack
 
-## Project Structure
+| Component | Technology Used |
+|-----------|-----------------|
+| **Frontend** | React 18, Vite, Custom CSS (OMS Theme), Lucide Icons |
+| **Backend** | Python, FastAPI, Uvicorn |
+| **Database** | PostgreSQL, SQLAlchemy 2.0 |
+| **Containerization**| Docker, Docker Compose, Nginx |
 
-```txt
-stockflow/
-├── backend/
-│   ├── app/
-│   │   ├── core/
-│   │   ├── db/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── schemas/
-│   │   └── main.py
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── src/
-│   │   ├── services/
-│   │   ├── main.jsx
-│   │   └── style.css
-│   ├── Dockerfile
-│   ├── package.json
-│   └── .env.example
-├── docker-compose.yml
-├── .dockerignore
-└── README.md
-```
+---
 
-## Run Locally with Docker Compose
+## 🚀 Quick Start (Docker)
+
+The entire application is containerized. To spin up the database, backend, and frontend simultaneously, simply run:
 
 ```bash
+git clone https://github.com/your-username/clearstock.git
+cd clearstock
 docker compose up --build
 ```
 
-Frontend:
+### Accessing the Services
+- **Frontend Dashboard**: [http://localhost:5173](http://localhost:5173)
+- **Backend API**: [http://localhost:8000](http://localhost:8000)
+- **Interactive API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-```txt
-http://localhost:5173
-```
+---
 
-Backend API:
-
-```txt
-http://localhost:8000
-```
-
-Swagger Docs:
-
-```txt
-http://localhost:8000/docs
-```
-
-## API Endpoints
+## 📡 API Reference
 
 ### Products
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/products` | Create product |
-| GET | `/products` | List products |
-| GET | `/products/{id}` | Get product by ID |
-| PUT | `/products/{id}` | Update product |
-| DELETE | `/products/{id}` | Delete product |
-
-### Customers
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/customers` | Create customer |
-| GET | `/customers` | List customers |
-| GET | `/customers/{id}` | Get customer by ID |
-| DELETE | `/customers/{id}` | Delete customer |
+- `GET /products` - List all products
+- `POST /products` - Create a new product (requires unique SKU)
+- `PUT /products/{id}` - Update a product
+- `DELETE /products/{id}` - Delete a product
 
 ### Orders
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/orders` | Create order |
-| GET | `/orders` | List orders |
-| GET | `/orders/{id}` | Get order by ID |
-| DELETE | `/orders/{id}` | Delete order |
+- `GET /orders` - List all orders
+- `POST /orders` - Place a new order (automatically reduces inventory)
+- `DELETE /orders/{id}` - Delete an order
 
 ### Dashboard
+- `GET /dashboard/summary` - Fetch high-level metrics (Total Products, Customers, Orders, Low Stock Alerts)
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/dashboard/summary` | Dashboard metrics |
-
-## Sample Order Payload
-
+**Sample Order Payload:**
 ```json
 {
   "customer_id": 1,
   "items": [
     {
-      "product_id": 1,
+      "product_id": 4,
       "quantity": 2
     }
   ]
 }
 ```
 
-## Deployment Plan
+---
 
-### Backend
-Recommended: Render or Railway
+## 📈 Future Roadmap
 
-Set environment variable:
+- [ ] **JWT Authentication**: Secure API endpoints and add role-based access control (RBAC).
+- [ ] **Alembic Migrations**: Implement schema version control for the PostgreSQL database.
+- [ ] **Unit & Integration Testing**: Add `pytest` test coverage for core transactional logic.
+- [ ] **Order Cancellations**: Add logic to safely cancel orders and automatically restore inventory stock.
 
-```txt
-DATABASE_URL=<your-postgres-url>
-CORS_ORIGINS=<your-frontend-url>
-```
+---
 
-### Frontend
-Recommended: Vercel or Netlify
-
-Set environment variable:
-
-```txt
-VITE_API_URL=<your-backend-api-url>
-```
-
-### Docker Hub
-
-```bash
-docker build -t your-dockerhub-username/stockflow-backend:latest ./backend
-docker push your-dockerhub-username/stockflow-backend:latest
-```
-
-## Why This Submission Stands Out
-
-Most assessment submissions are simple CRUD apps. StockFlow adds real engineering practices:
-
-- Clean backend architecture
-- Strong validation and error handling
-- Unique SKU and email constraints
-- Transaction-safe inventory reduction
-- Multi-table order design using order items
-- Fully containerized architecture
-- Professional README and deployment-ready environment configuration
-
-## Future Improvements
-
-- JWT authentication
-- Product image upload
-- Inventory transaction history
-- Search and filters
-- Order cancellation with stock restoration
-- Alembic migration setup
-- Unit and integration tests
+*Designed and developed by [Gagan Chandra]*

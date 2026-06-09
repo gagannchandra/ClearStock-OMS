@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { LayoutDashboard, Package, Users, ShoppingCart, Activity } from 'lucide-react';
+import { LayoutDashboard, Package, Users, ShoppingCart, Activity, Menu, X } from 'lucide-react';
 import { getSummary, getProducts, getCustomers, getOrders } from './services/api';
 import Dashboard from './components/Dashboard';
 import ProductsPanel from './components/ProductsPanel';
@@ -25,6 +25,12 @@ export default function App() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [connectionError, setConnectionError] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const switchTab = (id) => {
+    setActiveTab(id);
+    setSidebarOpen(false);
+  };
 
   const notify = useCallback((type, message) => {
     const id = ++notifCounter;
@@ -54,11 +60,17 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      {/* Mobile sidebar backdrop */}
+      {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
+
       {/* Sidebar */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${sidebarOpen ? 'sidebar--open' : ''}`}>
         <div className="sidebar-brand">
-          <div className="brand-icon"><Activity size={20} /></div>
-          <span className="brand-name">StockFlow</span>
+          <div className="brand-icon" style={{ fontSize: '20px' }}>📦</div>
+          <span className="brand-name">ClearStock</span>
+          <button className="sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Close menu">
+            <X size={20} />
+          </button>
         </div>
         <nav className="sidebar-nav">
           {TABS.map(({ id, label, icon: Icon }) => (
@@ -66,7 +78,7 @@ export default function App() {
               key={id}
               id={`tab-${id}`}
               className={`nav-item ${activeTab === id ? 'nav-item--active' : ''}`}
-              onClick={() => setActiveTab(id)}
+              onClick={() => switchTab(id)}
               aria-current={activeTab === id ? 'page' : undefined}
             >
               <Icon size={18} />
@@ -83,9 +95,14 @@ export default function App() {
       {/* Main content */}
       <div className="main-content">
         <header className="topbar">
-          <div>
-            <h1 className="topbar-title">{TABS.find((t) => t.id === activeTab)?.label}</h1>
-            <p className="topbar-sub">Inventory & Order Management</p>
+          <div className="topbar-left">
+            <button className="mobile-menu-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
+              <Menu size={22} />
+            </button>
+            <div>
+              <h1 className="topbar-title">{TABS.find((t) => t.id === activeTab)?.label}</h1>
+              <p className="topbar-sub">Inventory & Order Management</p>
+            </div>
           </div>
           <button className="btn btn--ghost btn--sm" onClick={refresh} aria-label="Refresh data">
             ↻ Refresh

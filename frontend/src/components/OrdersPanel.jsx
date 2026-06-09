@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, ShoppingCart, ChevronRight } from 'lucide-react';
+import { Plus, ShoppingCart, ChevronRight, Trash2 } from 'lucide-react';
 import { createOrder, deleteOrder } from '../services/api';
 import Modal from './Modal';
 
@@ -127,17 +127,17 @@ export default function OrdersPanel({ orders, products, customers, onRefresh, on
               <tbody>
                 {orders.map((o) => (
                   <tr key={o.id} className="clickable-row" onClick={() => setDetailOrder(o)}>
-                    <td className="font-medium">#{o.id}</td>
+                    <td className="font-medium font-mono">#{o.id}</td>
                     <td>{getCustomerName(o.customer_id)}</td>
                     <td>{o.items.length} item{o.items.length !== 1 ? 's' : ''}</td>
-                    <td>₹{Number(o.total_amount).toFixed(2)}</td>
+                    <td className="font-mono">₹{Number(o.total_amount).toFixed(2)}</td>
                     <td><span className={`badge ${statusColor(o.status)}`}>{o.status}</span></td>
                     <td className="action-cell" onClick={(e) => e.stopPropagation()}>
                       <button className="btn btn--icon" onClick={() => setDetailOrder(o)} title="View details" aria-label="View order details">
                         <ChevronRight size={15} />
                       </button>
                       <button className="btn btn--icon btn--danger" onClick={() => setConfirmDeleteId(o.id)} title="Delete order" aria-label={`Delete order #${o.id}`}>
-                        <ShoppingCart size={15} />
+                        <Trash2 size={15} />
                       </button>
                     </td>
                   </tr>
@@ -163,7 +163,7 @@ export default function OrdersPanel({ orders, products, customers, onRefresh, on
               </div>
               <div className="detail-meta-item">
                 <span className="detail-label">Order Total</span>
-                <span className="detail-value font-bold">₹{Number(detailOrder.total_amount).toFixed(2)}</span>
+                <span className="detail-value font-bold font-mono">₹{Number(detailOrder.total_amount).toFixed(2)}</span>
               </div>
             </div>
 
@@ -183,8 +183,8 @@ export default function OrdersPanel({ orders, products, customers, onRefresh, on
                     <tr key={item.id}>
                       <td>{getProductName(item.product_id)}</td>
                       <td>{item.quantity}</td>
-                      <td>₹{Number(item.unit_price).toFixed(2)}</td>
-                      <td className="font-medium">₹{Number(item.line_total).toFixed(2)}</td>
+                      <td className="font-mono">₹{Number(item.unit_price).toFixed(2)}</td>
+                      <td className="font-medium font-mono">₹{Number(item.line_total).toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>

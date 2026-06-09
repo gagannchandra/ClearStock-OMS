@@ -145,8 +145,8 @@ export default function ProductsPanel({ products, onRefresh, onNotify }) {
                 {products.map((p) => (
                   <tr key={p.id}>
                     <td className="font-medium">{p.name}</td>
-                    <td><span className="badge badge--grey">{p.sku}</span></td>
-                    <td>₹{Number(p.price).toFixed(2)}</td>
+                    <td><span className="badge badge--grey font-mono">{p.sku}</span></td>
+                    <td className="font-mono">₹{Number(p.price).toFixed(2)}</td>
                     <td>
                       <span className={`badge ${p.quantity === 0 ? 'badge--red' : p.quantity < 5 ? 'badge--yellow' : 'badge--green'}`}>
                         {p.quantity === 0

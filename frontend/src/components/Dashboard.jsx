@@ -44,8 +44,8 @@ export default function Dashboard({ summary, products }) {
                 {lowStockItems.map((p) => (
                   <tr key={p.id}>
                     <td className="font-medium">{p.name}</td>
-                    <td><span className="badge badge--grey">{p.sku}</span></td>
-                    <td>₹{Number(p.price).toFixed(2)}</td>
+                    <td><span className="badge badge--grey font-mono">{p.sku}</span></td>
+                    <td className="font-mono">₹{Number(p.price).toFixed(2)}</td>
                     <td>
                       <span className={`badge ${p.quantity === 0 ? 'badge--red' : 'badge--yellow'}`}>
                         {p.quantity === 0 ? 'Out of stock' : `${p.quantity} left`}
