@@ -7,6 +7,7 @@
 
 **ClearStock** is a production-ready, full-stack application designed for managing products, customers, orders, and inventory movement. Built originally as a technical assessment for Ethara AI, it has been heavily refined to feature an **industry-standard Enterprise OMS Light Theme** optimized for high data density, extreme readability, and transactional safety.
 
+### Live  : https://clearstock.gaganchandra.in/
 ---
 
 ## ✨ Key Features
